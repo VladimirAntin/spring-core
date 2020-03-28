@@ -28,43 +28,36 @@ public class GeneratorImpl {
             String classNameLower = aClass.getSimpleName().toLowerCase();
             String className = aClass.getSimpleName();
             retVal.put(classNameLower, new ArrayList<>());
-            String dtoClasses = createFolder(defaultPackage, classNameLower, "web/DTO", "classes");
-            String mapperClasses = createFolder(defaultPackage, classNameLower, "web/mapper", "classes");
-            String repoClasses = createFolder(defaultPackage, classNameLower, "repo", "classes");
-            String serviceClasses = createFolder(defaultPackage, classNameLower, "service", "classes");
-            String controllerClasses = createFolder(defaultPackage, classNameLower, "web/rest", "classes");
-            String dtoGeneratedSource = createFolder(defaultPackage, classNameLower, "web/DTO", "generated-sources/annotations");
-            String mapperGeneratedSource = createFolder(defaultPackage, classNameLower, "web/mapper", "generated-sources/annotations");
-            String repoGeneratedSource = createFolder(defaultPackage, classNameLower, "repo", "generated-sources/annotations");
-            String serviceGeneratedSource = createFolder(defaultPackage, classNameLower, "service", "generated-sources/annotations");
-            String controllerGeneratedSource = createFolder(defaultPackage, classNameLower, "web/rest", "generated-sources/annotations");
+
+            String targetClasses = createFolder(defaultPackage, classNameLower, "classes");
+            String targetGeneratedSource = createFolder(defaultPackage, classNameLower, "generated-sources/annotations");
             HashMap<CoreImpl.ImplType, Boolean> types = new HashMap();
             for (CoreImpl.ImplType implType : aClass.getDeclaredAnnotation(CoreImpl.class).type()) {
                 types.put(implType, true);
             }
             boolean all = types.getOrDefault(CoreImpl.ImplType.ALL,false);
             if (types.getOrDefault(CoreImpl.ImplType.DTO,false) || all) {
-                retVal.get(classNameLower).add(new FileReflection().setContent(CreateDTO.create(aClass, defaultPackage)).setPath(dtoClasses).setClassName(className.concat("DTO")).setGeneratedSource(dtoGeneratedSource));
+                retVal.get(classNameLower).add(new FileReflection().setContent(CreateDTO.create(aClass, defaultPackage)).setPath(targetClasses).setClassName(className.concat("DTO")).setGeneratedSource(targetGeneratedSource));
             }
             if (types.getOrDefault(CoreImpl.ImplType.MAPPER,false) || all) {
-                retVal.get(classNameLower).add(new FileReflection().setContent(CreateMapper.create(aClass, defaultPackage)).setPath(mapperClasses).setClassName(className.concat("Mapper")).setGeneratedSource(mapperGeneratedSource));
+                retVal.get(classNameLower).add(new FileReflection().setContent(CreateMapper.create(aClass, defaultPackage)).setPath(targetClasses).setClassName(className.concat("Mapper")).setGeneratedSource(targetGeneratedSource));
             }
             if (types.getOrDefault(CoreImpl.ImplType.REPO,false) || all) {
-                retVal.get(classNameLower).add(new FileReflection().setContent(CreateRepo.create(aClass, defaultPackage)).setPath(repoClasses).setClassName(className.concat("Repo")).setGeneratedSource(repoGeneratedSource));
+                retVal.get(classNameLower).add(new FileReflection().setContent(CreateRepo.create(aClass, defaultPackage)).setPath(targetClasses).setClassName(className.concat("Repo")).setGeneratedSource(targetGeneratedSource));
             }
             if (types.getOrDefault(CoreImpl.ImplType.SERVICE,false) || all) {
-                retVal.get(classNameLower).add(new FileReflection().setContent(CreateService.create(aClass, defaultPackage)).setPath(serviceClasses).setClassName(className.concat("Service")).setGeneratedSource(serviceGeneratedSource));
+                retVal.get(classNameLower).add(new FileReflection().setContent(CreateService.create(aClass, defaultPackage)).setPath(targetClasses).setClassName(className.concat("Service")).setGeneratedSource(targetGeneratedSource));
             }
             if (types.getOrDefault(CoreImpl.ImplType.CONTROLLER,false) || all) {
-                retVal.get(classNameLower).add(new FileReflection().setContent(CreateController.create(aClass, defaultPackage)).setPath(controllerClasses).setClassName(className.concat("Controller")).setGeneratedSource(controllerGeneratedSource));
+                retVal.get(classNameLower).add(new FileReflection().setContent(CreateController.create(aClass, defaultPackage)).setPath(targetClasses).setClassName(className.concat("Controller")).setGeneratedSource(targetGeneratedSource));
             }
         }
         return retVal;
     }
 
 
-    private static String createFolder(String defaultPackageName, String className, String packageType, String targetChildFolder) {
-        String folder = getRoot(defaultPackageName, targetChildFolder).concat("/generatedSources/").concat(className.toLowerCase()).concat("/").concat(packageType);
+    private static String createFolder(String defaultPackageName, String className, String targetChildFolder) {
+        String folder = getRoot(defaultPackageName, targetChildFolder).concat("/generatedSources/").concat(className.toLowerCase());
         new File(folder).mkdirs();
         return folder;
     }

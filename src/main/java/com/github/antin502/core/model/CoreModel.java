@@ -4,8 +4,6 @@ import com.github.antin502.core.reflection.Invoker;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -27,12 +25,10 @@ public class CoreModel implements Invoker {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(updatable = false, columnDefinition = "Datetime default now()", nullable = false)
-    @CreatedDate
+    @Column(updatable = false, columnDefinition = "Datetime not null default now()", nullable = false)
     private LocalDateTime createdOn;
 
     @Column(columnDefinition = "Datetime default now()", nullable = false)
-    @LastModifiedDate
     private LocalDateTime updateOn;
 
     @Version
@@ -41,6 +37,18 @@ public class CoreModel implements Invoker {
     @NotNull
     @Column(columnDefinition = "Bit default 0")
     private boolean deleted = false;
+
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdOn = LocalDateTime.now();
+        this.updateOn = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updateOn = LocalDateTime.now();
+    }
 
 }
 

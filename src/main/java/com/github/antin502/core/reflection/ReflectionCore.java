@@ -17,7 +17,7 @@ import java.util.Arrays;
  */
 public class ReflectionCore {
 
-    public static void createClass(FileReflection fileReflection) throws IOException, ClassNotFoundException {
+    public static void createClass(FileReflection fileReflection) throws IOException {
         File sourceFile = new File(fileReflection.getPath().concat("/").concat(fileReflection.getClassName()).concat(".java"));
         File generatedSources = new File(fileReflection.getGeneratedSource().concat("/").concat(fileReflection.getClassName()).concat(".java"));
 

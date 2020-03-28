@@ -34,7 +34,7 @@ public abstract class CoreModelService<R extends JpaRepository<E, Long>,E extend
      */
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
-    R repo;
+    protected R repo;
 
     /**
      * Find all for object type

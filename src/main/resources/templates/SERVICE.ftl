@@ -1,7 +1,7 @@
-package ${rootPackage}.generatedSources.${typeLower}.service;
+package ${rootPackage}.generatedSources.${typeLower};
 
 import ${package}.${type};
-import ${rootPackage}.generatedSources.${typeLower}.repo.${type}Repo;
+import ${rootPackage}.generatedSources.${typeLower}.${type}Repo;
 import com.github.antin502.core.service.CoreModelService;
 import org.springframework.stereotype.Service;
 

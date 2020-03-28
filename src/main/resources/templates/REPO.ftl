@@ -1,4 +1,4 @@
-package ${rootPackage}.generatedSources.${typeLower}.repo;
+package ${rootPackage}.generatedSources.${typeLower};
 
 import ${package}.${type};
 import com.github.antin502.core.repo.CoreRepository;

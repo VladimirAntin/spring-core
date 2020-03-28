@@ -1,6 +1,7 @@
-package ${rootPackage}.generatedSources.${typeLower}.web.DTO;
+package ${rootPackage}.generatedSources.${typeLower};
 
-import com.github.antin502.core.web.DTO.CoreDTO;import lombok.Getter;
+import com.github.antin502.core.web.DTO.CoreDTO;
+import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;

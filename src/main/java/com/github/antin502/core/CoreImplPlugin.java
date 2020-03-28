@@ -19,12 +19,12 @@ import java.util.Map;
  */
 public class CoreImplPlugin {
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void main(String[] args) throws IOException{
         run();
     }
 
 
-    private static void run() throws IOException, ClassNotFoundException {
+    private static void run() throws IOException {
         Reflections reflections = new Reflections("");
         List<Class<?>> classes = new ArrayList<>(reflections.getTypesAnnotatedWith(SpringBootApplication.class));
         if(classes.size() == 1) {

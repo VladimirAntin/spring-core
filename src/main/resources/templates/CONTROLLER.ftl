@@ -1,10 +1,10 @@
-package ${rootPackage}.generatedSources.${typeLower}.web.rest;
+package ${rootPackage}.generatedSources.${typeLower};
 
 import ${package}.${type};
-import ${rootPackage}.generatedSources.${typeLower}.service.${type}Service;
+import ${rootPackage}.generatedSources.${typeLower}.${type}Service;
 import com.github.antin502.core.web.rest.CoreRestController;
-import ${rootPackage}.generatedSources.${typeLower}.web.DTO.${type}DTO;
-import ${rootPackage}.generatedSources.${typeLower}.web.mapper.${type}Mapper;
+import ${rootPackage}.generatedSources.${typeLower}.${type}DTO;
+import ${rootPackage}.generatedSources.${typeLower}.${type}Mapper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
