@@ -1,6 +1,6 @@
 package ${rootPackage}.generatedSources.${typeLower};
 
-import CoreDTO;
+import com.github.vladimirantin.core.web.DTO.CoreDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

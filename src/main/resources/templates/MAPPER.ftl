@@ -2,7 +2,7 @@ package ${rootPackage}.generatedSources.${typeLower};
 
 import ${package}.${type};
 import ${rootPackage}.generatedSources.${typeLower}.${type}DTO;
-import CoreMapperImpl;
+import com.github.vladimirantin.core.web.mapper.CoreMapperImpl;
 import org.springframework.stereotype.Component;
 
 @Component

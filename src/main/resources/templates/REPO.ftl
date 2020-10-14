@@ -1,7 +1,7 @@
 package ${rootPackage}.generatedSources.${typeLower};
 
 import ${package}.${type};
-import CoreRepository;
+import com.github.vladimirantin.core.repo.CoreRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository

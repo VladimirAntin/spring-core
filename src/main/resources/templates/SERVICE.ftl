@@ -2,7 +2,7 @@ package ${rootPackage}.generatedSources.${typeLower};
 
 import ${package}.${type};
 import ${rootPackage}.generatedSources.${typeLower}.${type}Repo;
-import CoreModelService;
+import com.github.vladimirantin.core.service.CoreModelService;
 import org.springframework.stereotype.Service;
 
 @Service
