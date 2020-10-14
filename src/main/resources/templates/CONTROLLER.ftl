@@ -2,7 +2,7 @@ package ${rootPackage}.generatedSources.${typeLower};
 
 import ${package}.${type};
 import ${rootPackage}.generatedSources.${typeLower}.${type}Service;
-import com.github.antin502.core.web.rest.CoreRestController;
+import CoreRestController;
 import ${rootPackage}.generatedSources.${typeLower}.${type}DTO;
 import ${rootPackage}.generatedSources.${typeLower}.${type}Mapper;
 import org.springframework.web.bind.annotation.RequestMapping;
