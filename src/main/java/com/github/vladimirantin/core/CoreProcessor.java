@@ -29,8 +29,12 @@ import java.util.Set;
  * Date: 14.10.2020
  * Time: 15:09
  */
-//@SupportedAnnotationTypes("com.github.vladimirantin.core.reflection.CoreImpl")
-//@SupportedSourceVersion(SourceVersion.RELEASE_8)
+
+/**
+ * References
+ * https://www.logicbig.com/tutorials/core-java-tutorial/java-se-annotation-processing-api/annotation-processor-generate-code.html
+ * https://www.baeldung.com/java-annotation-processing-builder
+ */
 @AutoService(Processor.class)
 public class CoreProcessor extends AbstractProcessor {
     @SneakyThrows
@@ -52,7 +56,6 @@ public class CoreProcessor extends AbstractProcessor {
             CoreImpl coreImpl = annotatedElement.getAnnotation(CoreImpl.class);
             TypeElement typeElement = (TypeElement) annotatedElement;
             ClassName className = ClassName.get(typeElement);
-            System.out.println("[Vladimir_Antin] - "+className.canonicalName());
 
             List<FileReflection> fileReflections = GeneratorImpl.one(className, coreImpl, getDto(coreImpl), defaultPackage);
             for (FileReflection fileReflection : fileReflections) {
