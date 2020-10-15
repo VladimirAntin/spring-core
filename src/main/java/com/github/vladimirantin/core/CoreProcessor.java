@@ -1,21 +1,27 @@
 package com.github.vladimirantin.core;
 
-import com.github.vladimirantin.core.reflection.*;
+import com.github.vladimirantin.core.reflection.CoreImpl;
+import com.github.vladimirantin.core.reflection.FileReflection;
+import com.github.vladimirantin.core.reflection.GeneratorImpl;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 import lombok.SneakyThrows;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.*;
-
-import javax.annotation.processing.*;
+import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.Processor;
+import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.MirroredTypeException;
-import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
-import javax.tools.Diagnostic;
+import javax.tools.JavaFileObject;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 /**
  * Created by IntelliJ IDEA
  * User: vladimir_antin
@@ -27,17 +33,10 @@ import javax.tools.Diagnostic;
 //@SupportedSourceVersion(SourceVersion.RELEASE_8)
 @AutoService(Processor.class)
 public class CoreProcessor extends AbstractProcessor {
-    ProcessingEnvironment processingEnv;
-
-    @Override
-    public synchronized void init(ProcessingEnvironment processingEnv) {
-        super.init(processingEnv);
-        this.processingEnv = processingEnv;
-    }
-
     @SneakyThrows
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
+
         String defaultPackage = "";
         for (Element root : roundEnvironment.getElementsAnnotatedWith(SpringBootApplication.class)) {
             try {
@@ -54,16 +53,22 @@ public class CoreProcessor extends AbstractProcessor {
             TypeElement typeElement = (TypeElement) annotatedElement;
             ClassName className = ClassName.get(typeElement);
             System.out.println("[Vladimir_Antin] - "+className.canonicalName());
-            System.out.println("[Vladimir_Antin] - "+annotatedElement);
 
             List<FileReflection> fileReflections = GeneratorImpl.one(className, coreImpl, getDto(coreImpl), defaultPackage);
             for (FileReflection fileReflection : fileReflections) {
-                ReflectionCore.createClass(fileReflection);
+                generateClass(String.format("%s.%s", fileReflection.getPackagePath(), fileReflection.getClassName()), fileReflection.getContent());
             }
 
         }
 
         return true;
+    }
+
+    private void generateClass(String path, String content) throws IOException {
+        JavaFileObject sourceFile = processingEnv.getFiler().createSourceFile(path);
+        Writer writer = sourceFile.openWriter();
+        writer.write(content);
+        writer.close();
     }
 
     @Override

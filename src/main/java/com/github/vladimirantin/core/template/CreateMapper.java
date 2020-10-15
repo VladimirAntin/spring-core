@@ -6,7 +6,6 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.Version;
 
-import javax.lang.model.element.TypeElement;
 import java.io.IOException;
 import java.util.Map;
 

@@ -17,9 +17,8 @@ import lombok.experimental.Accessors;
 @ToString
 public class FileReflection {
 
-    private String path;
-    private String generatedSource;
     private String content;
     private String className;
+    private String packagePath;
 
 }

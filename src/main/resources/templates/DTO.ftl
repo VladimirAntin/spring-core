@@ -1,4 +1,4 @@
-package ${rootPackage}.generatedSources.${typeLower};
+package ${rootPackage}.coreImpl.${typeLower};
 
 import com.github.vladimirantin.core.web.DTO.CoreDTO;
 import lombok.Getter;

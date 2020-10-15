@@ -1,10 +1,10 @@
-package ${rootPackage}.generatedSources.${typeLower};
+package ${rootPackage}.coreImpl.${typeLower};
 
 import ${package}.${type};
-import ${rootPackage}.generatedSources.${typeLower}.${type}Service;
+import ${rootPackage}.coreImpl.${typeLower}.${type}Service;
 import com.github.vladimirantin.core.web.rest.CoreRestController;
 import ${DTO.canonicalName()};
-import ${rootPackage}.generatedSources.${typeLower}.${type}Mapper;
+import ${rootPackage}.coreImpl.${typeLower}.${type}Mapper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

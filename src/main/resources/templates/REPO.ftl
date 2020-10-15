@@ -1,4 +1,4 @@
-package ${rootPackage}.generatedSources.${typeLower};
+package ${rootPackage}.coreImpl.${typeLower};
 
 import ${package}.${type};
 import com.github.vladimirantin.core.repo.CoreRepository;
