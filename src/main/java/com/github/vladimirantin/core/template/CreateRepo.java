@@ -1,6 +1,7 @@
 package com.github.vladimirantin.core.template;
 
 import com.github.vladimirantin.core.template.parent.CreateFreeMaker;
+import com.squareup.javapoet.ClassName;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.Version;
@@ -17,7 +18,7 @@ import java.util.Map;
  */
 public class CreateRepo extends CreateFreeMaker {
 
-    public static String create(Class<?> aClass, String defaultPackage) throws IOException {
+    public static String create(ClassName aClass, String defaultPackage) throws IOException {
 
         Configuration cfg = new Configuration(new Version("2.3.23"));
 

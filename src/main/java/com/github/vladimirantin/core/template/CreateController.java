@@ -1,6 +1,7 @@
 package com.github.vladimirantin.core.template;
 
 import com.github.vladimirantin.core.template.parent.CreateFreeMaker;
+import com.squareup.javapoet.ClassName;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.Version;
@@ -17,7 +18,7 @@ import java.util.Map;
  */
 public class CreateController extends CreateFreeMaker {
 
-    public static String create(Class<?> aClass, String defaultPackage) throws IOException {
+    public static String create(ClassName aClass, ClassName dtoClass, String defaultPackage) throws IOException {
 
         Configuration cfg = new Configuration(new Version("2.3.23"));
 
@@ -27,8 +28,9 @@ public class CreateController extends CreateFreeMaker {
         Template template = cfg.getTemplate("templates/CONTROLLER.ftl");
 
 
-        String newClassName = String.format("%sController.java", aClass.getSimpleName());
+        String newClassName = String.format("%sController.java", aClass.simpleName());
         Map<String, Object> templateData = getDefaultTepmlateData(aClass, defaultPackage);
+        templateData.put("DTO", dtoClass);
         return writeFile(templateData, template);
     }
 

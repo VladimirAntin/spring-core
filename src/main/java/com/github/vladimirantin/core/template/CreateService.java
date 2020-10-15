@@ -1,6 +1,7 @@
 package com.github.vladimirantin.core.template;
 
 import com.github.vladimirantin.core.template.parent.CreateFreeMaker;
+import com.squareup.javapoet.ClassName;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.Version;
@@ -17,7 +18,7 @@ import java.util.Map;
  */
 public class CreateService extends CreateFreeMaker {
 
-    public static String create(Class<?> aClass, String defaultPackage) throws IOException {
+    public static String create(ClassName aClass, String defaultPackage) throws IOException {
 
         Configuration cfg = new Configuration(new Version("2.3.23"));
 
@@ -27,7 +28,7 @@ public class CreateService extends CreateFreeMaker {
         Template template = cfg.getTemplate("templates/SERVICE.ftl");
 
 
-        String newClassName = String.format("%sService.java", aClass.getSimpleName());
+        String newClassName = String.format("%sService.java", aClass.simpleName());
         Map<String, Object> templateData = getDefaultTepmlateData(aClass, defaultPackage);
         return writeFile(templateData, template);
     }

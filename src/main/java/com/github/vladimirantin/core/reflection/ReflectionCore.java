@@ -18,19 +18,21 @@ import java.util.Arrays;
 public class ReflectionCore {
 
     public static void createClass(FileReflection fileReflection) throws IOException {
-        File sourceFile = new File(fileReflection.getPath().concat("/").concat(fileReflection.getClassName()).concat(".java"));
         File generatedSources = new File(fileReflection.getGeneratedSource().concat("/").concat(fileReflection.getClassName()).concat(".java"));
 
-        writeInFile(sourceFile, fileReflection.getContent());
         writeInFile(generatedSources, fileReflection.getContent());
+        if (fileReflection.getPath() !=null) {
+            File sourceFile = new File(fileReflection.getPath().concat("/").concat(fileReflection.getClassName()).concat(".java"));
+            writeInFile(sourceFile, fileReflection.getContent());
+            JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+            StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
+            Iterable<? extends JavaFileObject> compilationUnits = fileManager.getJavaFileObjectsFromFiles(Arrays.asList(sourceFile));
+            compiler.getTask(null, fileManager, null, null, null, compilationUnits).call();
+            sourceFile.delete();
+            fileManager.close();
+        }
 
         // compile the source file
-        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
-        Iterable<? extends JavaFileObject> compilationUnits = fileManager.getJavaFileObjectsFromFiles(Arrays.asList(sourceFile));
-        compiler.getTask(null, fileManager, null, null, null, compilationUnits).call();
-        sourceFile.delete();
-        fileManager.close();
 
     }
 

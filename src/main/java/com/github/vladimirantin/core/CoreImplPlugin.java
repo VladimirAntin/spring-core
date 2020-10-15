@@ -1,15 +1,9 @@
 package com.github.vladimirantin.core;
 
-import com.github.vladimirantin.core.reflection.FileReflection;
-import com.github.vladimirantin.core.reflection.GeneratorImpl;
-import com.github.vladimirantin.core.reflection.ReflectionCore;
-import org.reflections.Reflections;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import com.github.vladimirantin.core.model.CoreModel;
+import com.squareup.javapoet.ClassName;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA
@@ -19,13 +13,17 @@ import java.util.Map;
  */
 public class CoreImplPlugin {
 
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         run();
+
+        ClassName className = ClassName.get(CoreModel.class);
+        Class c = Class.forName(className.canonicalName());
+        System.out.println(c.getName());
     }
 
 
     private static void run() throws IOException {
-        Reflections reflections = new Reflections("");
+/*        Reflections reflections = new Reflections("");
         List<Class<?>> classes = new ArrayList<>(reflections.getTypesAnnotatedWith(SpringBootApplication.class));
         if(classes.size() == 1) {
             Map<String, List<FileReflection>> result = GeneratorImpl.all(classes.get(0));
@@ -35,7 +33,7 @@ public class CoreImplPlugin {
                     ReflectionCore.createClass(fileReflection);
                 }
             }
-        }
+        }*/
 
     }
 

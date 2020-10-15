@@ -1,6 +1,7 @@
 package com.github.vladimirantin.core.template.parent;
 
 import com.google.common.base.CaseFormat;
+import com.squareup.javapoet.ClassName;
 import freemarker.template.Template;
 
 import java.io.StringWriter;
@@ -35,6 +36,15 @@ public class CreateFreeMaker {
         templateData.put("rootPackage", defaultPackage);
         templateData.put("package", aClass.getPackage().getName());
         templateData.put("api", CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, aClass.getSimpleName()));
+        return templateData;
+    }
+    public static Map<String, Object> getDefaultTepmlateData(ClassName aClass, String defaultPackage){
+        Map<String, Object> templateData = new HashMap<>();
+        templateData.put("typeLower", aClass.simpleName().toLowerCase());
+        templateData.put("type", aClass.simpleName());
+        templateData.put("rootPackage", defaultPackage);
+        templateData.put("package", aClass.packageName());
+        templateData.put("api", CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, aClass.simpleName()));
         return templateData;
     }
 }
