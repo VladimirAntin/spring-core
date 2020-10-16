@@ -34,3 +34,7 @@
         </plugins>
     </build>
 ```
+
+## Docs
+
+- [Usage](https://vladimirantin.github.io/projects/ng-multiselect)
