@@ -37,4 +37,4 @@
 
 ## Docs
 
-- [Usage](https://vladimirantin.github.io/projects/ng-multiselect)
+- [Usage](https://vladimirantin.github.io/projects/spring-core)
