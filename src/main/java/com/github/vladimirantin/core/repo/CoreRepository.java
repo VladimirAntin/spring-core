@@ -28,4 +28,29 @@ public interface CoreRepository<T extends CoreModel> extends JpaRepository<T, Lo
     default void delete(T entity) {
         deleteById(entity.getId());
     }
+
+    @Override
+    @Transactional
+    default void deleteAll(Iterable<? extends T> entities) {
+        entities.forEach(entitiy -> delete(entitiy));
+    }
+
+    @Override
+    @Transactional
+    default void deleteInBatch(Iterable<T> iterable) {
+        iterable.forEach(entitiy -> delete(entitiy));
+    }
+
+    @Override
+    default void deleteAllInBatch() {
+        deleteAll();
+    };
+
+    @Override
+    @Query("update #{#entityName} e set e.deleted=false")
+    @Transactional
+    @Modifying
+    void deleteAll();
+
+
 }

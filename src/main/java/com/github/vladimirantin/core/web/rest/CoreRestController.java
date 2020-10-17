@@ -125,7 +125,8 @@ public abstract class CoreRestController<SERVICE extends CoreModelService, MAPPE
      */
     @DeleteMapping("/{id}")
     public ResponseEntity deleteOne(@PathVariable long id) {
-        service.delete(id);
+        ENTITY entity = (ENTITY) service.findOne(id);
+        service.delete(entity);
         return ResponseEntity.noContent().build();
     }
 

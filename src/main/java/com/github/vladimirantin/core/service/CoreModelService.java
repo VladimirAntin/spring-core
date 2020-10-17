@@ -69,11 +69,11 @@ public abstract class CoreModelService<R extends JpaRepository<E, Long>,E extend
 
     /**
      * Delete one object
-     * @param id - Object id
+     * @param entity - Entity to delete
      */
-    public void delete(long id) {
-        log.info("Delete one by id: {} (entity: {}, repo: {})", id, getEntityName(), getRepoName());
-        repo.deleteById(id);
+    public void delete(E entity) {
+        log.info("Delete one by id: {} (entity: {}, repo: {})", entity.getId(), getEntityName(), getRepoName());
+        repo.delete(entity);
     }
 
 
