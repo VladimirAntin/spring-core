@@ -47,7 +47,7 @@ public interface CoreRepository<T extends CoreModel> extends JpaRepository<T, Lo
     };
 
     @Override
-    @Query("update #{#entityName} e set e.deleted=false")
+    @Query("update #{#entityName} e set e.deleted=true")
     @Transactional
     @Modifying
     void deleteAll();
