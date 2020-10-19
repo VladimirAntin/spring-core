@@ -1,6 +1,7 @@
 package com.github.vladimirantin.core.repo;
 
 import com.github.vladimirantin.core.model.CoreModel;
+import com.github.vladimirantin.core.softDelete.event.SoftDeletePublisher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -26,19 +27,25 @@ public interface CoreRepository<T extends CoreModel> extends JpaRepository<T, Lo
     @Override
     @Transactional
     default void delete(T entity) {
+        SoftDeletePublisher.preSoftDelete(entity);
         deleteById(entity.getId());
+        SoftDeletePublisher.postSoftDelete(entity);
     }
 
     @Override
     @Transactional
     default void deleteAll(Iterable<? extends T> entities) {
-        entities.forEach(entitiy -> delete(entitiy));
+        SoftDeletePublisher.preSoftDeleteCollection(entities);
+        entities.forEach(entity -> delete(entity));
+        SoftDeletePublisher.postSoftDeleteCollection(entities);
     }
 
     @Override
     @Transactional
-    default void deleteInBatch(Iterable<T> iterable) {
-        iterable.forEach(entitiy -> delete(entitiy));
+    default void deleteInBatch(Iterable<T> entities) {
+        SoftDeletePublisher.preSoftDeleteCollection(entities);
+        entities.forEach(entity -> delete(entity));
+        SoftDeletePublisher.postSoftDeleteCollection(entities);
     }
 
     @Override
