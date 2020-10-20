@@ -1,7 +1,6 @@
 package com.github.vladimirantin.core.annotation;
 
 import com.github.vladimirantin.core.audit.AuditConfiguration;
-import com.github.vladimirantin.core.softDelete.SoftDeleteConfig;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.ElementType;
@@ -19,5 +18,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Import(AuditConfiguration.class)
+@EnableSoftDeleteEvents
 public @interface EnableAudit {
 }

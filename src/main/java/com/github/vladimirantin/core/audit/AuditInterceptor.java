@@ -5,10 +5,11 @@ import com.github.vladimirantin.core.softDelete.event.SoftDeleteEvent;
 import com.github.vladimirantin.core.softDelete.event.SoftDeleteListener;
 import com.github.vladimirantin.core.softDelete.event.collection.PostSoftDeleteCollectionEvent;
 import com.github.vladimirantin.core.softDelete.event.collection.PreSoftDeleteCollectionEvent;
-import com.github.vladimirantin.core.softDelete.event.one.PostSoftDeleteEvent;
 import com.github.vladimirantin.core.softDelete.event.one.PreSoftDeleteEvent;
 import org.hibernate.event.service.spi.EventListenerRegistry;
-import org.hibernate.event.spi.*;
+import org.hibernate.event.spi.EventType;
+import org.hibernate.event.spi.PostInsertEventListener;
+import org.hibernate.event.spi.PostUpdateEventListener;
 import org.hibernate.internal.SessionFactoryImpl;
 import org.hibernate.persister.entity.EntityPersister;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,32 +48,6 @@ public abstract class AuditInterceptor implements PostInsertEventListener, PostU
         registry.appendListeners(EventType.POST_INSERT, this);
         registry.appendListeners(EventType.POST_UPDATE, this);
     }
-
-    @Override
-    public void onPostInsert(PostInsertEvent event) {
-        AuditLog ce = AuditLog.INSERT(event, loggedInUsername());
-        if (ce!=null) {
-            auditLogService.save(ce);
-        }
-    }
-
-    @Override
-    public void onPostUpdate(PostUpdateEvent event) {
-        AuditLog ce = AuditLog.UPDATE(event, loggedInUsername());
-        if (ce!=null) {
-            auditLogService.save(ce);
-        }
-    }
-
-    @Override
-    public void onPostSoftDelete(PostSoftDeleteEvent event) {
-        AuditLog ce = AuditLog.DELETE(event, loggedInUsername());
-        if (ce!=null) {
-            auditLogService.save(ce);
-        }
-    }
-
-    protected abstract String loggedInUsername();
 
     @Override
     public final void onPreSoftDelete(PreSoftDeleteEvent event) { }

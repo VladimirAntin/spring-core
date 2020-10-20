@@ -5,7 +5,7 @@
     <dependency>
             <groupId>com.github.vladimirantin</groupId>
             <artifactId>spring-core</artifactId>
-            <version>1.1</version>
+            <version>1.2</version>
             <scope>provided</scope>
     </dependency>
 ```
@@ -25,7 +25,7 @@
                        <path>
                             <groupId>com.github.vladimirantin</groupId>
                             <artifactId>spring-core</artifactId>
-                            <version>1.1</version>
+                            <version>1.2</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>

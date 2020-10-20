@@ -7,7 +7,6 @@ import com.github.vladimirantin.core.template.CreateRepo;
 import com.github.vladimirantin.core.template.CreateService;
 import com.squareup.javapoet.ClassName;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;

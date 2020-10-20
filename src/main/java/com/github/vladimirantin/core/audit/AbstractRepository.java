@@ -19,14 +19,10 @@ import java.util.Optional;
  */
 public abstract class AbstractRepository<T extends CoreModel> implements CoreRepository<T> {
     @Override
-    public void deleteById(Long id) {
-
-    }
+    public void deleteById(Long id) { }
 
     @Override
-    public void deleteAll() {
-
-    }
+    public void deleteAll() {}
 
     @Override
     public List<T> findAll() {
@@ -49,9 +45,7 @@ public abstract class AbstractRepository<T extends CoreModel> implements CoreRep
     }
 
     @Override
-    public void flush() {
-
-    }
+    public void flush() { }
 
     @Override
     public <S extends T> S saveAndFlush(S entity) {

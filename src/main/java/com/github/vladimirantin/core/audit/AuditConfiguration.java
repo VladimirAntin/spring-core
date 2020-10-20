@@ -1,12 +1,9 @@
 package com.github.vladimirantin.core.audit;
 
 import com.github.vladimirantin.core.audit.impl.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
 
 
 /**
@@ -17,16 +14,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
  * Time: 12:35
  */
 @Configuration
-@Import({AuditInterceptorImpl.class,
-         AuditLog.class,
-         AuditLogRepo.class,
-         AuditLogService.class,
-         AuditLogMapper.class,
-         AuditLogController.class})
+@Import({AuditInterceptorImpl.class, AuditLog.class, AuditLogRepo.class,
+         AuditLogService.class, AuditLogMapper.class, AuditLogController.class})
 @AutoConfigurationPackage
-public class AuditConfiguration {
-
-    @Autowired
-    private AuditInterceptor auditInterceptor;
-
-}
+public class AuditConfiguration { }
