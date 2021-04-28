@@ -109,15 +109,6 @@ public abstract class CoreRestController<SERVICE extends CoreModelService, MAPPE
         return ResponseEntity.ok(mapper.toDto(entity));
     }
 
-    @SuppressWarnings("unchecked")
-    @PatchMapping("/{id}/{propertyName}")
-    public ResponseEntity patch(@PathVariable long id, @PathVariable String propertyName, @RequestBody DTO dto) throws InvocationTargetException, IllegalAccessException {
-        ENTITY entity = (ENTITY) service.findOne(id);
-        entity.setReflectValue(propertyName, dto.getReflectValue(propertyName));
-        entity = (ENTITY) service.save(entity);
-        return ResponseEntity.ok(mapper.toDto(entity));
-    }
-
     /**
      * Delete ENTITY by id
      * @param id - Id of ENTITY

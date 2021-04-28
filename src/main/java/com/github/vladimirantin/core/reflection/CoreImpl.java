@@ -18,9 +18,9 @@ import java.lang.annotation.Target;
 public @interface CoreImpl {
     enum ImplType {
 
-        ALL, SERVICE, REPO, CONTROLLER, MAPPER
+        STANDARD, EXTENDED, SERVICE, REPO, CONTROLLER, EXTENDED_CONTROLLER, MAPPER
     }
-    ImplType[] type() default {ImplType.ALL};
+    ImplType[] type() default {ImplType.STANDARD};
     Class<?> DTO() default CoreDTO.class;
 
 }

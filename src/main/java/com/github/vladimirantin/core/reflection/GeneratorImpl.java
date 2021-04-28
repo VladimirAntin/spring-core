@@ -27,25 +27,29 @@ public class GeneratorImpl {
 
         HashMap<CoreImpl.ImplType, Boolean> types = new HashMap();
         if (coreImpl.type().length == 0) {
-            types.put(CoreImpl.ImplType.ALL, true);
+            types.put(CoreImpl.ImplType.STANDARD, true);
         }
         for (CoreImpl.ImplType implType : coreImpl.type()) {
             types.put(implType, true);
         }
         String pkg = String.format("%s.coreImpl.%s",defaultPackage, classNameLower);
-        boolean all = types.getOrDefault(CoreImpl.ImplType.ALL, false);
-//        retVal.add(new FileReflection().setContent(CreateDTO.create(coreImpl.DTO(), defaultPackage))/*.setPath(targetClasses)*/.setClassName(className.concat("DTO")).setGeneratedSource(targetGeneratedSource));
-        if (types.getOrDefault(CoreImpl.ImplType.REPO, false) || all) {
+        boolean all = types.getOrDefault(CoreImpl.ImplType.STANDARD, false);
+        boolean extended = types.getOrDefault(CoreImpl.ImplType.EXTENDED, false);
+
+        if (types.getOrDefault(CoreImpl.ImplType.REPO, false) || all || extended) {
             retVal.add(new FileReflection().setContent(CreateRepo.create(aClass, defaultPackage)).setClassName(className.concat("Repo")).setPackagePath(pkg));
         }
-        if (types.getOrDefault(CoreImpl.ImplType.SERVICE, false) || all) {
+        if (types.getOrDefault(CoreImpl.ImplType.SERVICE, false) || all || extended) {
             retVal.add(new FileReflection().setContent(CreateService.create(aClass, defaultPackage)).setClassName(className.concat("Service")).setPackagePath(pkg));
         }
-        if (types.getOrDefault(CoreImpl.ImplType.MAPPER, false) || all) {
+        if (types.getOrDefault(CoreImpl.ImplType.MAPPER, false) || all || extended) {
             retVal.add(new FileReflection().setContent(CreateMapper.create(aClass, dto, defaultPackage)).setClassName(className.concat("Mapper")).setPackagePath(pkg));
         }
         if (types.getOrDefault(CoreImpl.ImplType.CONTROLLER, false) || all) {
             retVal.add(new FileReflection().setContent(CreateController.create(aClass, dto, defaultPackage)).setClassName(className.concat("Controller")).setPackagePath(pkg));
+        }
+        if (types.getOrDefault(CoreImpl.ImplType.EXTENDED_CONTROLLER, false) || extended) {
+            retVal.add(new FileReflection().setContent(CreateController.createExtended(aClass, dto, defaultPackage)).setClassName(className.concat("Controller")).setPackagePath(pkg));
         }
         return retVal;
     }
