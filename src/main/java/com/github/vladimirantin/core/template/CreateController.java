@@ -34,4 +34,20 @@ public class CreateController extends CreateFreeMaker {
         return writeFile(templateData, template);
     }
 
+    public static String createExtended(ClassName aClass, ClassName dtoClass, String defaultPackage) throws IOException {
+
+        Configuration cfg = new Configuration(new Version("2.3.23"));
+
+        cfg.setClassForTemplateLoading(CreateController.class, "/");
+        cfg.setDefaultEncoding("UTF-8");
+
+        Template template = cfg.getTemplate("templates/EXTENDED_CONTROLLER.ftl.ftl");
+
+
+        String newClassName = String.format("%sController.java", aClass.simpleName());
+        Map<String, Object> templateData = getDefaultTepmlateData(aClass, defaultPackage);
+        templateData.put("DTO", dtoClass);
+        return writeFile(templateData, template);
+    }
+
 }
