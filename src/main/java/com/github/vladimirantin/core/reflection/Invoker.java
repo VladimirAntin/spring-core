@@ -14,10 +14,11 @@ public interface Invoker {
 
     /**
      * Invoke getter supper class
-     * @param propertyName
-     * @return
-     * @throws InvocationTargetException
-     * @throws IllegalAccessException
+     * @param <T> - type of value
+     * @param propertyName - name of property of class
+     * @return value by name of property
+     * @throws InvocationTargetException - target exception
+     * @throws IllegalAccessException - illegal access (security)
      */
     default <T>Object getReflectValue(String propertyName) throws InvocationTargetException, IllegalAccessException {
         Method getter = Arrays.stream(this.getClass().getMethods()).filter(m -> m.getName().toLowerCase().contains(String.format("get%s", propertyName))).findFirst().get();
@@ -26,11 +27,11 @@ public interface Invoker {
 
     /**
      * invoke setter supper class
-     * @param propertyName
-     * @param newValue
-     * @throws InvocationTargetException
-     * @throws IllegalAccessException
-     * @return
+     * @param propertyName - name of property of class
+     * @param newValue - new value for property of class
+     * @throws InvocationTargetException - target exception
+     * @throws IllegalAccessException - illegal access (security)
+     * @return current object
      */
     default Invoker setReflectValue(String propertyName, Object newValue) throws InvocationTargetException, IllegalAccessException {
         Method setter = Arrays.stream(this.getClass().getMethods()).filter(m -> m.getName().toLowerCase().contains(String.format("set%s", propertyName))).findFirst().get();
