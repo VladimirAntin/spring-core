@@ -78,8 +78,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(bearerProperties.securityLinksDisable).permitAll()
                 .antMatchers(bearerProperties.securityLinksEnable).authenticated();
-//                .antMatchers("/api/login").permitAll()
-//                .antMatchers("/api/**").authenticated();
 
         httpSecurity.addFilterBefore(authenticationTokenFilterBean(),
                 UsernamePasswordAuthenticationFilter.class);
