@@ -1,6 +1,5 @@
 package com.github.vladimirantin.core.security.web.DTO;
 
-import com.github.vladimirantin.core.web.DTO.CoreDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +12,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class LoginUserDTO extends CoreDTO {
+public class LoginUserDTO {
 
     private String username;
     private String password;
