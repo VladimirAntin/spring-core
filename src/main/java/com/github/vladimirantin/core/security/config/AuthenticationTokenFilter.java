@@ -1,6 +1,5 @@
 package com.github.vladimirantin.core.security.config;
 
-import javassist.tools.web.BadHttpRequest;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

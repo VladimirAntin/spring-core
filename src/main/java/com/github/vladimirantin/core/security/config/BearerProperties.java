@@ -29,6 +29,6 @@ public class BearerProperties {
     @Value("${security.links.enable:/api/**}")
     public String[] securityLinksEnable;
 
-    @Value("${security.links.disable:/login}")
+    @Value("${security.links.disable:/auth/login}")
     public String[] securityLinksDisable;
 }

@@ -76,6 +76,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 })
                 .and()
                 .authorizeRequests()
+                .antMatchers("/auth/login").permitAll()
+                .antMatchers("/auth/me", "/auth/refresh").authenticated()
                 .antMatchers(bearerProperties.securityLinksDisable).permitAll()
                 .antMatchers(bearerProperties.securityLinksEnable).authenticated();
 
