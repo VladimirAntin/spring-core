@@ -16,5 +16,5 @@ import lombok.Setter;
 public class UserDTO extends CoreDTO {
 
     private String username;
-    private String active;
+    private boolean active;
 }
