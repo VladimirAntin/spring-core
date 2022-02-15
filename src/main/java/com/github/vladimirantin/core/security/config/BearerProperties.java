@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class BearerProperties {
 
-    @Value("${bearer.header:Bearer}")
+    @Value("${bearer.prefix:Bearer}")
     public String prefix;
 
     @Value("${bearer.header:Authorization}")
