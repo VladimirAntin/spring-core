@@ -1,8 +1,8 @@
 package com.github.vladimirantin.core.security;
 
 import com.github.vladimirantin.core.security.config.BearerProperties;
-import com.github.vladimirantin.core.security.config.WebSecurity;
 import com.github.vladimirantin.core.security.config.TokenUtils;
+import com.github.vladimirantin.core.security.config.WebSecurity;
 import com.github.vladimirantin.core.security.model.CoreUser;
 import com.github.vladimirantin.core.security.model.Role;
 import com.github.vladimirantin.core.security.service.AuthService;

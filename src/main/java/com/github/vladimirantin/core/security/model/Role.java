@@ -7,7 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -29,10 +30,5 @@ public class Role extends CoreModel {
     @Column(unique = true)
     @Size(min = 4, max = 25) //ROLE...
     private String name;
-
-/*
-    @ManyToMany(mappedBy = "roles")
-    private Set<CoreUser> users = new HashSet<>();
-*/
 
 }

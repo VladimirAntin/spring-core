@@ -1,7 +1,6 @@
 package com.github.vladimirantin.core.security.service;
 
 import com.github.vladimirantin.core.security.model.CoreUser;
-import org.springframework.stereotype.Service;
 
 /**
  * Created by IntelliJ IDEA
@@ -13,11 +12,5 @@ import org.springframework.stereotype.Service;
 public interface CoreUserService {
 
     CoreUser getUser(String username);
-/*
-    {
-        return userRepo.findByUsernameAndActive(username, true)
-                .orElseThrow(
-                        () -> new UsernameNotFoundException(String.format("No user found with username '%s'.", username)));
-    }
-*/
+
 }
