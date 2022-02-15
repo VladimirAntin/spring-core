@@ -40,23 +40,4 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Invalid login");
         }
     }
-
-/*
-
-    @GetMapping("/refresh")
-    public ResponseEntity<?> refresh(Principal principal) {
-        UserDetails details = userDetailsService.loadUserByUsername(principal.getName());
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(properties.header, tokenUtils.generateToken(details));
-        return ResponseEntity.ok()
-                .headers(headers)
-                .build();
-    }
-
-    @GetMapping("/me")
-    public ResponseEntity<UserDTO> findOne(Principal principal) {
-        return ResponseEntity.ok(userMapper.toDto(userService.findByUsername(principal.getName())));
-    }
-*/
-
 }
