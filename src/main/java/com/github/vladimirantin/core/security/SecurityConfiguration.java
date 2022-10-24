@@ -12,8 +12,11 @@ import com.github.vladimirantin.core.security.web.DTO.UserDTO;
 import com.github.vladimirantin.core.security.web.mapper.UserMapper;
 import com.github.vladimirantin.core.security.web.rest.AuthController;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 /**
@@ -30,4 +33,9 @@ import org.springframework.context.annotation.Import;
 })
 @AutoConfigurationPackage
 public class SecurityConfiguration {
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }
