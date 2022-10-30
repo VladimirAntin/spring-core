@@ -89,7 +89,7 @@ public class CoreProcessor extends AbstractProcessor {
     }
 
     private ClassName getDto(CoreImpl coreImpl) {
-        AtomicReference<TypeMirror> clazzType = null;
+        AtomicReference<TypeMirror> clazzType = new AtomicReference<>(null);
         Try.thenCatch(()  -> {
             coreImpl.DTO();
         }, e -> {
