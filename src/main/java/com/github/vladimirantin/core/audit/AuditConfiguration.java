@@ -1,6 +1,10 @@
 package com.github.vladimirantin.core.audit;
 
-import com.github.vladimirantin.core.audit.impl.*;
+import com.github.vladimirantin.core.audit.impl.AuditInterceptorImpl;
+import com.github.vladimirantin.core.audit.impl.AuditLogController;
+import com.github.vladimirantin.core.audit.impl.AuditLogMapper;
+import com.github.vladimirantin.core.audit.impl.AuditLogRepo;
+import com.github.vladimirantin.core.audit.impl.AuditLogService;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
