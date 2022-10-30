@@ -1,5 +1,6 @@
 package com.github.vladimirantin.core.template.parent;
 
+import com.github.vladimirantin.core.utils.Try;
 import com.google.common.base.CaseFormat;
 import com.squareup.javapoet.ClassName;
 import freemarker.template.Template;
@@ -18,14 +19,11 @@ public class CreateFreeMaker {
 
 
     public static String writeFile(Map dataMap, Template template) {
-        try {
+        return Try.then(() -> {
             StringWriter stringWriter = new StringWriter();
             template.process(dataMap, stringWriter);
             return stringWriter.toString();
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "";
+        }, "");
     }
 
 

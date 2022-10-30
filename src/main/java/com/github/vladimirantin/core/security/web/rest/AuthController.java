@@ -8,6 +8,7 @@ import com.github.vladimirantin.core.security.service.CoreUserService;
 import com.github.vladimirantin.core.security.web.DTO.LoginUserDTO;
 import com.github.vladimirantin.core.security.web.DTO.UserDTO;
 import com.github.vladimirantin.core.security.web.mapper.UserMapper;
+import com.github.vladimirantin.core.utils.Try;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -56,13 +57,11 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody final LoginUserDTO user) {
-        try {
+        return Try.then(() -> {
             CoreUser coreUser = authService.login(user);
             HttpHeaders headers = authService.setHeader(coreUser);
             return ResponseEntity.ok().headers(headers).build();
-        } catch (Exception ex) {
-            return ResponseEntity.badRequest().body("Invalid login");
-        }
+        }, ResponseEntity.badRequest().body("Invalid login"));
     }
 
     @GetMapping("/refresh")

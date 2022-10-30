@@ -3,6 +3,7 @@ package com.github.vladimirantin.core.audit.impl;
 import com.github.vladimirantin.core.audit.AuditInterceptor;
 import com.github.vladimirantin.core.audit.AuditLog;
 import com.github.vladimirantin.core.softDelete.event.one.PostSoftDeleteEvent;
+import com.github.vladimirantin.core.utils.Try;
 import org.hibernate.event.spi.PostInsertEvent;
 import org.hibernate.event.spi.PostUpdateEvent;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,10 +44,6 @@ public class AuditInterceptorImpl extends AuditInterceptor {
     }
 
     protected String loggedInUsername() {
-        String defaultUsername = "Application";
-        try {
-            defaultUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        } catch (Exception e){}
-        return defaultUsername;
+        return Try.then(() -> SecurityContextHolder.getContext().getAuthentication().getName(), "Application");
     }
 }

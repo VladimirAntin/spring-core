@@ -1,5 +1,6 @@
 package com.github.vladimirantin.core.security.config;
 
+import com.github.vladimirantin.core.utils.Try;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -25,35 +26,21 @@ public class TokenUtils {
     BearerProperties bearerProperties;
 
     public String getUsernameFromToken(String token) {
-        String username;
-        try {
+        return Try.then(() -> {
             Claims claims = this.getClaimsFromToken(token);
-            username = claims.getSubject();
-        } catch (Exception e) {
-            username = null;
-        }
-        return username;
+            return claims.getSubject();
+        },null);
     }
 
     private Claims getClaimsFromToken(String token) {
-        Claims claims;
-        try {
-            claims = Jwts.parser().setSigningKey(bearerProperties.secret).parseClaimsJws(token).getBody();
-        } catch (Exception e) {
-            claims = null;
-        }
-        return claims;
+        return Try.then(() -> Jwts.parser().setSigningKey(bearerProperties.secret).parseClaimsJws(token).getBody(), null);
     }
 
     private Date getExpirationDateFromToken(String token) {
-        Date expiration;
-        try {
+        return Try.then(() -> {
             final Claims claims = this.getClaimsFromToken(token);
-            expiration = claims.getExpiration();
-        } catch (Exception e) {
-            expiration = null;
-        }
-        return expiration;
+            return claims.getExpiration();
+        }, null);
     }
 
     private boolean isTokenExpired(String token) {

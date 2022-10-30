@@ -3,6 +3,7 @@ package com.github.vladimirantin.core;
 import com.github.vladimirantin.core.reflection.CoreImpl;
 import com.github.vladimirantin.core.reflection.FileReflection;
 import com.github.vladimirantin.core.reflection.GeneratorImpl;
+import com.github.vladimirantin.core.utils.Try;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 import lombok.SneakyThrows;
@@ -22,6 +23,7 @@ import java.io.Writer;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 /**
  * Created by IntelliJ IDEA
  * User: vladimir_antin
@@ -41,15 +43,15 @@ public class CoreProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
 
-        String defaultPackage = "";
-        for (Element root : roundEnvironment.getElementsAnnotatedWith(SpringBootApplication.class)) {
-            try {
+        AtomicReference<String> defaultPackage = new AtomicReference<>("");
+        Try.then(() -> {
+            for (Element root : roundEnvironment.getElementsAnnotatedWith(SpringBootApplication.class)) {
                 TypeElement typeElement = (TypeElement) root;
                 ClassName className = ClassName.get(typeElement);
-                defaultPackage = className.packageName();
+                defaultPackage.set(className.packageName());
                 break;
-            } catch (Exception e) { }
-        }
+            }
+        });
 
         Set<? extends Element> annotatedElements = roundEnvironment.getElementsAnnotatedWith(CoreImpl.class);
         for (Element annotatedElement : annotatedElements) {
@@ -57,7 +59,7 @@ public class CoreProcessor extends AbstractProcessor {
             TypeElement typeElement = (TypeElement) annotatedElement;
             ClassName className = ClassName.get(typeElement);
 
-            List<FileReflection> fileReflections = GeneratorImpl.one(className, coreImpl, getDto(coreImpl), defaultPackage);
+            List<FileReflection> fileReflections = GeneratorImpl.one(className, coreImpl, getDto(coreImpl), defaultPackage.get());
             for (FileReflection fileReflection : fileReflections) {
                 generateClass(String.format("%s.%s", fileReflection.getPackagePath(), fileReflection.getClassName()), fileReflection.getContent());
             }
@@ -87,13 +89,16 @@ public class CoreProcessor extends AbstractProcessor {
     }
 
     private ClassName getDto(CoreImpl coreImpl) {
-        TypeMirror clazzType = null;
-        try {
+        AtomicReference<TypeMirror> clazzType = null;
+        Try.thenCatch(()  -> {
             coreImpl.DTO();
-        } catch (MirroredTypeException mte) {
-            clazzType = mte.getTypeMirror();
-        }
-        return getExtracted(clazzType);
+        }, e -> {
+            if (e instanceof MirroredTypeException) {
+                MirroredTypeException mte = (MirroredTypeException) e;
+                clazzType.set(mte.getTypeMirror());
+            }
+        });
+        return getExtracted(clazzType.get());
     }
 
     private ClassName getExtracted(TypeMirror typeMirror) {

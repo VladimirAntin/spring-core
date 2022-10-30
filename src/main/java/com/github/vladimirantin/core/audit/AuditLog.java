@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.github.vladimirantin.core.model.CoreModel;
 import com.github.vladimirantin.core.softDelete.event.one.PostSoftDeleteEvent;
+import com.github.vladimirantin.core.utils.Try;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -55,11 +56,7 @@ public class AuditLog extends CoreModel {
         AuditLog auditLog = createChangeEntityFromCoreModel(model, username);
         auditLog.setAction(AuditLogAction.INSERT);
         auditLog.setPreviousState("{}");
-        try {
-            auditLog.setCurrentState(objectMapper.writeValueAsString(model));
-        } catch (Exception e) {
-            auditLog.setCurrentState("{}");
-        }
+        auditLog.setCurrentState(Try.then(() -> objectMapper.writeValueAsString(model), "{}"));
         return auditLog;
     }
 

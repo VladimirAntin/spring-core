@@ -5,6 +5,7 @@ import com.github.vladimirantin.core.security.config.BearerProperties;
 import com.github.vladimirantin.core.security.config.TokenUtils;
 import com.github.vladimirantin.core.security.model.CoreUser;
 import com.github.vladimirantin.core.security.web.DTO.LoginUserDTO;
+import com.github.vladimirantin.core.utils.Try;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -47,12 +48,10 @@ public class AuthService {
     }
 
     private boolean isValidLong(String code) {
-        try {
+        return Try.then(() -> {
             Long.parseLong(code);
-        } catch (final NumberFormatException e) {
-            return false;
-        }
-        return true;
+            return true;
+        }, false);
     }
 
     public HttpHeaders setHeader(CoreUser user) {

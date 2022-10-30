@@ -1,5 +1,6 @@
 package com.github.vladimirantin.core.security.config;
 
+import com.github.vladimirantin.core.utils.Try;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -58,11 +59,7 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
-        try {
-            chain.doFilter(request, response);
-        } catch (ServletException e) {
-            httpResponse.sendError(HttpServletResponse.SC_BAD_REQUEST);
-        }
+        Try.thenCatch(() -> chain.doFilter(request, response), (e) -> httpResponse.sendError(HttpServletResponse.SC_BAD_REQUEST));
     }
 
 }
