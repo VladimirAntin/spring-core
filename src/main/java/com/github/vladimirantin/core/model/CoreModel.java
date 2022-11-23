@@ -36,7 +36,7 @@ public class CoreModel implements Invoker {
     private LocalDateTime createdOn;
 
     @Column(columnDefinition = "Datetime default now()", nullable = false)
-    private LocalDateTime updateOn;
+    private LocalDateTime updatedOn;
 
     @Version
     private int version;
@@ -49,12 +49,12 @@ public class CoreModel implements Invoker {
     @PrePersist
     protected void onCreate() {
         this.createdOn = LocalDateTime.now();
-        this.updateOn = LocalDateTime.now();
+        this.updatedOn = LocalDateTime.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.updateOn = LocalDateTime.now();
+        this.updatedOn = LocalDateTime.now();
     }
 
 }
