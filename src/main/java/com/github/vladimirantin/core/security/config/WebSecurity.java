@@ -5,15 +5,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,8 +28,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurity extends WebSecurityConfigurerAdapter {
+@EnableMethodSecurity
+public class WebSecurity {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -40,28 +40,24 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Autowired
     private BearerProperties bearerProperties;
 
-    @Autowired
-    public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder
-                .userDetailsService(this.userDetailsService)
-                .passwordEncoder(passwordEncoder);
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder)
+                .and()
+                .build();
     }
 
     @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-
-    @Bean
-    public AuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
+    public AuthenticationTokenFilter authenticationTokenFilterBean(HttpSecurity httpSecurity) throws Exception {
         AuthenticationTokenFilter authenticationTokenFilter = new AuthenticationTokenFilter();
-        authenticationTokenFilter.setAuthenticationManager(authenticationManagerBean());
+        authenticationTokenFilter.setAuthenticationManager(authenticationManager(httpSecurity));
         return authenticationTokenFilter;
     }
 
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .headers().frameOptions().disable().and()
                 .csrf().disable()
@@ -72,13 +68,21 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 })
                 .and()
-                .authorizeRequests()
-                .antMatchers("/auth/login").permitAll()
-                .antMatchers("/auth/me", "/auth/refresh").authenticated()
-                .antMatchers(bearerProperties.securityLinksDisable).permitAll()
-                .antMatchers(bearerProperties.securityLinksEnable).authenticated();
+                .authorizeRequests(auth ->
+                    auth
+                            .antMatchers("/auth/login").permitAll()
+                            .antMatchers("/auth/me", "/auth/refresh").authenticated()
+                            .antMatchers(bearerProperties.securityLinksDisable).permitAll()
+                            .antMatchers(bearerProperties.securityLinksEnable).authenticated()
+                )
+                .addFilterBefore(authenticationTokenFilterBean(httpSecurity), UsernamePasswordAuthenticationFilter.class);
 
-        httpSecurity.addFilterBefore(authenticationTokenFilterBean(),
-                UsernamePasswordAuthenticationFilter.class);
+        return httpSecurity.build();
     }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().antMatchers();
+    }
+
 }

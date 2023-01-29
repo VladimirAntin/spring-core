@@ -6,7 +6,7 @@
 
     <groupId>com.github.vladimirantin</groupId>
     <artifactId>spring-core</artifactId>
-    <version>1.4.2</version>
+    <version>1.5</version>
     <packaging>jar</packaging>
 
 
@@ -156,21 +156,20 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
-            <version>5.6.1</version>
+            <version>5.7.3</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
-            <version>5.6.1</version>
+            <version>5.7.3</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
-            <version>5.6.1</version>
+            <version>5.7.3</version>
         </dependency>
-
 
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
@@ -184,7 +183,6 @@
             <artifactId>javax.servlet-api</artifactId>
             <version>4.0.1</version>
         </dependency>
-
 
     </dependencies>
 
